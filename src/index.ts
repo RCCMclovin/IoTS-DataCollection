@@ -4,7 +4,7 @@ import validateEnv from './utils/validateEnv';
 import { Request, Response } from 'express';
 import { ReasonPhrases, StatusCodes } from 'http-status-codes';
 import { InputType } from './types/input';
-import { appendFile } from 'fs';
+import { appendFile, writeFile } from 'fs';
 
 dotenv.config();
 validateEnv();
@@ -21,14 +21,13 @@ app.post("/", (req: Request, res: Response) => {
         return;
     }
     try {
-        console.log(req.body);
         const inputs: InputType[] = req.body.split(";");
         inputs.forEach((reading: InputType) => {
             if (reading.length > 0) {
                 appendFile(OUTFILE, reading + "\n", (err) => {
                     if (err) {
-                    console.log("Error while writing file");
-                    res.status(StatusCodes.INTERNAL_SERVER_ERROR).send(ReasonPhrases.INTERNAL_SERVER_ERROR);
+                        console.log("Error while writing file");
+                        res.status(StatusCodes.INTERNAL_SERVER_ERROR).send(ReasonPhrases.INTERNAL_SERVER_ERROR);
                     }
                     else {
                         res.status(StatusCodes.ACCEPTED).send(ReasonPhrases.ACCEPTED);
@@ -40,8 +39,15 @@ app.post("/", (req: Request, res: Response) => {
     }
     catch (err) {
         res.status(StatusCodes.BAD_REQUEST).send("Input out of format");
-    } 
-})
+    }
+});
+
+app.delete("/", (req: Request, res: Response) => {
+    writeFile(OUTFILE, "Temperature, TDS, PH\n", (err) => {
+        if (err) res.status(StatusCodes.INTERNAL_SERVER_ERROR).send("Error writing file");
+        else res.status(StatusCodes.ACCEPTED).send(ReasonPhrases.ACCEPTED);
+    });
+});
 
 app.get("/", (req: Request, res: Response) => {
     res.sendFile(OUTFILE, (err) => {

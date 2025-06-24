@@ -1,0 +1,22 @@
+networks:
+  network:
+    driver: bridge
+
+volumes:
+  output-data:
+
+services:
+  backend:
+    container_name: "backend"
+    hostname: "backend"
+    build: 
+      context: ./
+      dockerfile: ./Dockerfile
+    networks:
+      - network 
+    volumes:
+      - output-data:/app/output
+    restart:
+      unless-stopped 
+    ports:
+      - 192.168.1.10:3333:3333
