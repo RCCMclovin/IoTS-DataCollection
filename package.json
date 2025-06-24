@@ -1,0 +1,36 @@
+{
+  "name": "datacollection",
+  "version": "1.0.0",
+  "description": "Codebase setting up a server for data collection of water quallity parameters of the IoTS laboratory in UFAM.",
+  "homepage": "https://github.com/RCCMclovin/IoTS-DataCollection#readme",
+  "bugs": {
+    "url": "https://github.com/RCCMclovin/IoTS-DataCollection/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/RCCMclovin/IoTS-DataCollection.git"
+  },
+  "license": "ISC",
+  "author": "Rafael Castilho Carvalho",
+  "type": "commonjs",
+  "main": "index.js",
+  "scripts": {
+    "start": "nodemon ./src/index.ts --watch ./src",
+    "start:prod": "node ./build/index.js",
+    "build": "npx tsc",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "dependencies": {
+    "dotenv": "^16.5.0",
+    "envalid": "^8.0.0",
+    "express": "^5.1.0",
+    "http-status-codes": "^2.3.0"
+  },
+  "devDependencies": {
+    "@types/express": "^5.0.3",
+    "@types/node": "^24.0.4",
+    "nodemon": "^3.1.10",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.8.3"
+  }
+}
